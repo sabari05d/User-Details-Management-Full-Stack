@@ -1,0 +1,40 @@
+package org.jsp.UserApp.dao;
+
+import java.util.Optional;
+
+import org.jsp.UserApp.Repository.PancardRepository;
+import org.jsp.UserApp.dto.Pancard;
+import org.jsp.UserApp.dto.ResponseStructure;
+import org.jsp.UserApp.dto.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class PancardDao {
+	@Autowired
+	private PancardRepository prepo;
+
+	public Pancard savePancard(Pancard p, int uid) {
+		return prepo.save(p);
+	}
+
+	public Optional<Pancard> findById(int id) {
+		return prepo.findById(id);
+	}
+
+	public Optional<Pancard> findByNumber(String number) {
+		return prepo.findByPanNumber(number);
+	}
+
+	public Optional<Pancard> findByUserName(String name) {
+		return prepo.findPanByUserName(name);
+	}
+
+	public Optional<Pancard> findByUserEmail(String email) {
+		return prepo.findPanByUserEmail(email);
+	}
+
+	public Optional<Pancard> verify(long phone, String password) {
+		return prepo.verifyByPhoneAndPassword(phone, password);
+	}
+}

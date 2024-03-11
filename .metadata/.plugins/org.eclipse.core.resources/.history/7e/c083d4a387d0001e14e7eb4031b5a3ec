@@ -1,0 +1,38 @@
+package org.jsp.UserApp.dao;
+
+import java.util.Optional;
+
+import org.jsp.UserApp.Repository.AadharRepository;
+import org.jsp.UserApp.dto.AadharCard;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class AadharDao {
+	@Autowired
+	private AadharRepository arepo;
+
+	public AadharCard saveAadhar(AadharCard card, int uid) {
+		return arepo.save(card);
+	}
+
+	public Optional<AadharCard> findById(int id) {
+		return arepo.findById(id);
+	}
+
+	public Optional<AadharCard> findByNumber(long number) {
+		return arepo.findByNumber(number);
+	}
+
+	public Optional<AadharCard> findByUserEmail(String email) {
+		return arepo.findByUserName(email);
+	}
+
+	public Optional<AadharCard> verifyByEmailAndPassword(String email, String password) {
+		return arepo.verifyByEmailAndPassword(email, password);
+	}
+
+	public Optional<AadharCard> findUserByAadhar(long number) {
+		return arepo.findUserByaadhar(number);
+	}
+}
