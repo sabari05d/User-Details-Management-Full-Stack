@@ -15,6 +15,10 @@ public class PancardDao {
 	public Pancard savePancard(Pancard p, int uid) {
 		return pancardRepository.save(p);
 	}
+	
+	public Pancard updatePancard(Pancard pancard) {
+		return pancardRepository.save(pancard);
+	}
 
 	public Optional<Pancard> findById(int id) {
 		return pancardRepository.findById(id);
@@ -30,5 +34,14 @@ public class PancardDao {
 
 	public Optional<Pancard> verify(long phone, String password) {
 		return pancardRepository.findPancardByUserPhone(phone, password);
+	}
+	
+	public boolean deletePancard(int pid) {
+		Optional<Pancard> pancard = pancardRepository.findById(pid);
+		if(pancard.isPresent()) {
+			pancardRepository.delete(pancard.get());
+			return true;
+		}
+		return false;
 	}
 }

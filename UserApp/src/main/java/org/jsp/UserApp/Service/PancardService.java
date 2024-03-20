@@ -44,9 +44,10 @@ public class PancardService {
 			Pancard card = resPancard.get();
 			card.setName(p.getName());
 			card.setDob(p.getDob());
+			card.setImage_url(p.getImage_url());
 			card.setNumber(p.getNumber());
 			structure.setMessage("Pancard Updated Successfullly");
-			structure.setData(pancardDao.savePancard(card, p.getId()));
+			structure.setData(pancardDao.updatePancard(card));
 			structure.setStatusCode(HttpStatus.ACCEPTED.value());
 			return new ResponseEntity<ResponseStructure<Pancard>>(structure, HttpStatus.ACCEPTED);
 		}
@@ -99,6 +100,19 @@ public class PancardService {
 			return new ResponseEntity<ResponseStructure<Pancard>>(structure, HttpStatus.OK);
 		}
 		throw new InvalidCredentialException("Invalid Phone Number or Password");
+	}
+	
+	public ResponseEntity<ResponseStructure<String>> deletePancard(int pid) {
+		Optional<Pancard> pancard = pancardDao.findById(pid);
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		if(pancard.isPresent()) {
+			pancardDao.deletePancard(pid);
+			structure.setMessage("Pancard Found Successfully..!!!");
+			structure.setData("Pancard Deleted Successfully");
+			structure.setStatusCode(HttpStatus.OK.value());
+			return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.ACCEPTED);
+		}
+		throw new IdNotFoundException();
 	}
 
 }

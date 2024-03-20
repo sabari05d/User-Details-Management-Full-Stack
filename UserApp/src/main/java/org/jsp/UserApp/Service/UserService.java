@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.jsp.UserApp.Exception.IdNotFoundException;
 import org.jsp.UserApp.Exception.InvalidCredentialException;
 import org.jsp.UserApp.Exception.NoUserFoundException;
+import org.jsp.UserApp.dao.AadharDao;
+import org.jsp.UserApp.dao.PancardDao;
 import org.jsp.UserApp.dao.UserDao;
 import org.jsp.UserApp.dto.ResponseStructure;
 import org.jsp.UserApp.dto.User;
@@ -18,6 +20,12 @@ import org.springframework.stereotype.Service;
 public class UserService {
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private PancardDao pancardDao;
+	
+	@Autowired
+	private AadharDao aadharDao;
 
 	public ResponseStructure<User> saveUser(User user) {
 		ResponseStructure<User> structure = new ResponseStructure<>();
@@ -35,6 +43,7 @@ public class UserService {
 			dbUser.setName(u.getName());
 			dbUser.setPhone(u.getPhone());
 			dbUser.setAge(u.getAge());
+			dbUser.setImage_url(u.getImage_url());
 			dbUser.setEmail(u.getEmail());
 			dbUser.setPassword(u.getPassword());
 			structure.setMessage("User Updated Successfully..!!!");
@@ -123,8 +132,10 @@ public class UserService {
 		ResponseStructure<String> structure = new ResponseStructure<>();
 		if (resUser.isPresent()) {
 			userDao.deleteUser(id);
+			pancardDao.deletePancard(resUser.get().getPancard().getId());
+			aadharDao.deleteAadhar(resUser.get().getAadharcard().getId());
 			structure.setMessage("User Found Successfully..!!!");
-			structure.setData("User Deleted Successfully");
+			structure.setData("User Details Deleted Successfully");
 			structure.setStatusCode(HttpStatus.OK.value());
 			return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.ACCEPTED);
 		}

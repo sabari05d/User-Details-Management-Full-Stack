@@ -44,12 +44,13 @@ public class AadharService {
 			aadhar.setName(card.getName());
 			aadhar.setNumber(card.getNumber());
 			aadhar.setAddress(card.getAddress());
+			aadhar.setImage_url(card.getImage_url());
 			aadhar.setGender(card.getGender());
 			aadhar.setPincode(card.getPincode());
 			aadhar.setCity(card.getCity());
 			aadhar.setState(card.getState());
 			structure.setMessage("AadharCard Updated Succesfully!!");
-			structure.setData(aadhar);
+			structure.setData(aadharDao.updateAadharCard(aadhar));
 			structure.setStatusCode(HttpStatus.ACCEPTED.value());
 			return new ResponseEntity<ResponseStructure<AadharCard>>(structure, HttpStatus.ACCEPTED);
 		}
@@ -114,6 +115,18 @@ public class AadharService {
 			return new ResponseEntity<ResponseStructure<AadharCard>>(structure, HttpStatus.OK);
 		}
 		throw new InvalidCredentialException("Incorrect Aadhar Number");
-
+	}
+	
+	public ResponseEntity<ResponseStructure<String>> deleteAadhar(int aid) {
+		Optional<AadharCard> card = aadharDao.findById(aid);
+		ResponseStructure<String> structure = new ResponseStructure<>();
+		if(card.isPresent()) {
+			aadharDao.deleteAadhar(aid);
+			structure.setMessage("Aadhar card Found Successfully..!!!");
+			structure.setData("Aadhar card Deleted Successfully");
+			structure.setStatusCode(HttpStatus.OK.value());
+			return new ResponseEntity<ResponseStructure<String>>(structure, HttpStatus.ACCEPTED);
+		}
+		throw new IdNotFoundException();
 	}
 }

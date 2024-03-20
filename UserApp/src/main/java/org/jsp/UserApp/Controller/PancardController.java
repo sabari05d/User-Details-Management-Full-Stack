@@ -5,6 +5,7 @@ import org.jsp.UserApp.dto.Pancard;
 import org.jsp.UserApp.dto.ResponseStructure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +30,11 @@ public class PancardController {
 	@PutMapping
 	public ResponseEntity<ResponseStructure<Pancard>> updatePancard(@RequestBody Pancard p) {
 		return pancardService.updatePancard(p);
+	}
+	
+	@DeleteMapping("/{pid}")
+	public ResponseEntity<ResponseStructure<String>> deletePancard(@PathVariable int pid) {
+		return pancardService.deletePancard(pid);
 	}
 
 	@GetMapping(value = "/{id}")

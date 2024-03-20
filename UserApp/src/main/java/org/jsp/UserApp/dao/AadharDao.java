@@ -15,6 +15,10 @@ public class AadharDao {
 	public AadharCard saveAadhar(AadharCard card, int uid) {
 		return aadharRepository.save(card);
 	}
+	
+	public AadharCard updateAadharCard(AadharCard card) {
+		return aadharRepository.save(card);
+	}
 
 	public Optional<AadharCard> findById(int id) {
 		return aadharRepository.findById(id);
@@ -34,5 +38,14 @@ public class AadharDao {
 
 	public Optional<AadharCard> findAadharByUserPhone(long number) {
 		return aadharRepository.findAadharByUserPhone(number);
+	}
+	
+	public boolean deleteAadhar(int aid) {
+		Optional<AadharCard> card = aadharRepository.findById(aid);
+		if(card.isPresent()) {
+			aadharRepository.delete(card.get());
+			return true;
+		}
+		return false;
 	}
 }

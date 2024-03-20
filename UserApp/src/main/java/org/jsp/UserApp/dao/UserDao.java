@@ -49,6 +49,7 @@ public class UserDao {
 		Optional<User> user = userRepository.findById(id);
 		if (user.isPresent()) {
 			userRepository.delete(user.get());
+			
 			return true;
 		}
 		return false;
